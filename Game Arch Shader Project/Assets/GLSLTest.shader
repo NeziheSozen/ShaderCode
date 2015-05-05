@@ -1,4 +1,6 @@
 Shader "Custom/GLSLTest" {
+	//Please Note, Must -force-opengl in unity to use this. 
+	//This fucks shit up, so please dont do it.
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Texture Image", 2D) = "white" {}

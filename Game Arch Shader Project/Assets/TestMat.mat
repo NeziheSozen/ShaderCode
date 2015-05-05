@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TestMat
-  m_Shader: {fileID: 4800000, guid: 9c6b1c687a2808847b31a813c73670cf, type: 3}
+  m_Shader: {fileID: 4800000, guid: f75797bf58550dc4aae089ed717b437f, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -210,7 +210,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .845588207, g: .279790223, b: .279790223, a: 1}
+        second: {r: .875, g: .308823526, b: .308823526, a: 0}
       data:
         first:
           name: _SpecColor

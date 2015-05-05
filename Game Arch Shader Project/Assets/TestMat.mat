@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TestMat
-  m_Shader: {fileID: 4800000, guid: 53745ad3b816a7b4dad88a67f5af8f61, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9c6b1c687a2808847b31a813c73670cf, type: 3}
   m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -18,7 +18,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: c485451f08267ad4c880e3bb2aafb19c, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -161,7 +161,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .699999988
+        second: 0
       data:
         first:
           name: _BumpScale
@@ -189,7 +189,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0
+        second: .414999992
       data:
         first:
           name: _InvFade
@@ -210,7 +210,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .720588207, g: .360294104, b: .360294104, a: 1}
+        second: {r: .845588207, g: .279790223, b: .279790223, a: 1}
       data:
         first:
           name: _SpecColor

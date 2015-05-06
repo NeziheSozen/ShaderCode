@@ -1,13 +1,18 @@
-Shader "Custom/CGTesting" {
+// Use a Cook-Torrance Model for a microfaceted BSDF.
+// Holy shit i know what these words mean now.
+// Sorta
+Shader "Custom/CGTesting (Working)" {
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_Glossiness("Gloss",Range(0,1))=0.5
-		_Metallic ("Metal",Range(0,1))= 0.0
+		_SpecColor("Spec Color", Color)= (1,1,1,1)
+		_Shininess("Ohh... Shiny", Float) = 10
+		//_Glossiness("Gloss",Range(0,1))=0.5
+		//_Metallic ("Metal",Range(0,1))= 0.0
 	}
 	SubShader {
 	Pass{
-	Tags{ "LightMode"=" ForwardBase"}
+	Tags{ "LightMode"="ForwardBase"}
 		LOD 300
 		
 		CGPROGRAM
@@ -23,6 +28,9 @@ Shader "Custom/CGTesting" {
 		uniform sampler2D _MainTex;
 		uniform float4 _LightColor0;
 		uniform float4 _Color;
+		uniform float4 _SpecColor;
+		uniform float  _Shininess;
+		
 		struct vInput{
 		//uvCoords should only be 2 thing, so a float2
 			float4 vertex : POSITION;
@@ -51,11 +59,22 @@ Shader "Custom/CGTesting" {
 			
 			float3 normDir = normalize(
 				mul(float4(input.normal,0.0),modelMatInv).xyz);
+			float3 veiwDir = normalize(_WorldSpaceCameraPos - 
+				mul(modelMat, input.vertex).xyz);
 			float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 			
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(normDir,lightDir));
-				 
+			
+			
+			float attenuation = 1.0; //only one light to worry about.
+			
+			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
+			
+			float3 specReflection;
+			
+			
+			
 			output.col = float4(diffuseReflection,0.0);
 			output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
 			output.tex = input.texCoord;

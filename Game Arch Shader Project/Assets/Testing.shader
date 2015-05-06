@@ -56,16 +56,16 @@ Shader "Custom/CGTesting" {
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(normDir,lightDir));
 				 
-			output.col = float4(diffuseReflection,1.0);
+			output.col = float4(diffuseReflection,0.0);
 			output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
-			output.tex = input.texCoord
+			output.tex = input.texCoord;
 			return output;
 		
 		}
 		
 		float4 frag( vOuptut input):COLOR
 		{
-			return input.col;
+			return tex2D(_MainTex, input.tex.xy) *input.col;
 		}
 		ENDCG
 	 }

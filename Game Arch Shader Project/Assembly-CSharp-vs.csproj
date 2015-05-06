@@ -49,6 +49,7 @@
      <Compile Include="Assets\Rotate.cs" />
      <None Include="Assets\Testing.shader" />
      <None Include="Assets\ClayShader.shader" />
+     <None Include="Assets\DrumpingGround.shader" />
      <None Include="Assets\GLSLTest.shader" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

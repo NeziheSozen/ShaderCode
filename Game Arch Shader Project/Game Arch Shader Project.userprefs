@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Testing.shader">
     <Files>
-      <File FileName="Assets\Testing.shader" Line="62" Column="1" />
-      <File FileName="Assets\ClayShader.shader" Line="42" Column="8" />
+      <File FileName="Assets\Testing.shader" Line="94" Column="14" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

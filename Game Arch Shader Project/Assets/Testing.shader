@@ -1,4 +1,4 @@
-// Use a Cook-Torrance Model for a microfaceted BSDF.
+// Use a Cook-Torrance  (with the bling phong for for the other part. )Model for a microfaceted BSDF.
 // Holy shit i know what these words mean now.
 // Sorta
 Shader "Custom/CGTesting (Working)" {
@@ -6,7 +6,10 @@ Shader "Custom/CGTesting (Working)" {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_SpecColor("Spec Color", Color)= (1,1,1,1)
-		_Shininess("Ohh... Shiny", Float) = 10
+		_Shininess("Ohh... Shiny", Float) = 1.0
+		
+		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
+		
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
 	}
@@ -30,7 +33,9 @@ Shader "Custom/CGTesting (Working)" {
 		uniform float4 _Color;
 		uniform float4 _SpecColor;
 		uniform float  _Shininess;
+		uniform float  _FresnelTerm;
 		
+		uniform float  _f_0;
 		struct vInput{
 		//uvCoords should only be 2 thing, so a float2
 			float4 vertex : POSITION;
@@ -59,7 +64,7 @@ Shader "Custom/CGTesting (Working)" {
 			
 			float3 normDir = normalize(
 				mul(float4(input.normal,0.0),modelMatInv).xyz);
-			float3 veiwDir = normalize(_WorldSpaceCameraPos - 
+			float3 viewDir = normalize(_WorldSpaceCameraPos - 
 				mul(modelMat, input.vertex).xyz);
 			float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 			
@@ -72,10 +77,18 @@ Shader "Custom/CGTesting (Working)" {
 			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
 			
 			float3 specReflection;
+			if(dot(normDir,lightDir)<0.0){
+			specReflection = float3(0.0,0.0,0.0);
+			}
+			else{
+			specReflection = attenuation * _LightColor0.rgb * _SpecColor.rgb
+			*pow(max(0.0,dot(reflect(-lightDir,normDir),viewDir)),_Shininess);			
+			}
 			
 			
 			
-			output.col = float4(diffuseReflection,0.0);
+			output.col = float4(diffuseReflection 
+			+ ambientLighting + specReflection,0.0);
 			output.pos = mul(UNITY_MATRIX_MVP, input.vertex);
 			output.tex = input.texCoord;
 			return output;

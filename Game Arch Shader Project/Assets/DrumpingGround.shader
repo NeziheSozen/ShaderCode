@@ -1,6 +1,7 @@
 ﻿// Use a Cook-Torrance  (with the bling phong for for the other part. )Model for a microfaceted BSDF.
-// Holy shit i know what these words mean now.
-// Sorta
+// a = roughness squared
+// n = normal
+//  get value from map. Plug into function. use as spec.
 Shader "Custom/CGTesting (Working in frag)" {
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)

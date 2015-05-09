@@ -9,6 +9,7 @@ Shader "Custom/CGTesting (Working)" {
 		_Shininess("Ohh... Shiny", Float) = 1.0
 		
 		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
+		_Roughness("Roughness",Float)=1
 		
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
@@ -34,6 +35,9 @@ Shader "Custom/CGTesting (Working)" {
 		uniform float4 _SpecColor;
 		uniform float  _Shininess;
 		uniform float  _FresnelTerm;
+		uniform float  _Roughness;
+		const float PI = 3.14159;
+		
 		
 		uniform float  _f_0;
 		struct vInput{
@@ -61,6 +65,12 @@ Shader "Custom/CGTesting (Working)" {
 			vOuptut output;
 			float4x4  modelMat = _Object2World;
 			float4x4  modelMatInv = _World2Object;
+			float alpha = _Roughness * _Roughness;
+			float m = input.normal; 
+			float NdotM = dot(input.normal,m);
+			float alpha_1 = pow(alpha,2)-1;
+			float alpha_2 = pow(alpha,2);
+			float GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
 			
 			float3 normDir = normalize(
 				mul(float4(input.normal,0.0),modelMatInv).xyz);

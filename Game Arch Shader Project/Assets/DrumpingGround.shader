@@ -10,7 +10,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 		_Shininess("Ohh... Shiny", Float) = 1.0
 		
 		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
-		
+		_Roughness("Roughness",Float)=1
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
 	}
@@ -35,6 +35,8 @@ Shader "Custom/CGTesting (Working in frag)" {
 		uniform float4 _SpecColor;
 		uniform float  _Shininess;
 		uniform float  _FresnelTerm;
+		uniform float  _Roughness;
+		const float PI = 3.14159;
 		
 		uniform float  _f_0;
 		struct vInput{
@@ -48,8 +50,9 @@ Shader "Custom/CGTesting (Working in frag)" {
 		struct vOuptut{
 		float4 pos: SV_POSITION;
 		float4 col: COLOR;
-		float3 norm: NORMAL;
+		float3 norm: TANGENT;
 		float4 tex: TEXCOORD0;
+		
 		
 		};
 		//fixed4 is a vec4 in GLSL 
@@ -77,8 +80,12 @@ Shader "Custom/CGTesting (Working in frag)" {
 		}
 		
 		float4 frag( vOuptut input):COLOR
-		{
-			
+		{	float alpha = _Roughness * _Roughness;
+			float m = input.tex.xy; 
+			float NdotM = dot(input.norm,m);
+			float alpha_1 = pow(alpha,2)-1;
+			float alpha_2 = pow(alpha,2);
+			float3 GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
 			float3 viewDir = normalize(_WorldSpaceCameraPos - 
 				mul(_Object2World, input.pos).xyz);
 			float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
@@ -100,7 +107,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess);			
 			}
 			float4 finalCol = float4(diffuseReflection 
-			+ ambientLighting + specReflection,0.0);
+			+ ambientLighting+specReflection,0.0);
 			float4 tex =  tex2D(_MainTex, input.tex.xy) *finalCol;
 			return tex;
 		}

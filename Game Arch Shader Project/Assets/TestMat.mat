@@ -156,10 +156,6 @@ Material:
         second: 10
       data:
         first:
-          name: _FresnelTerm
-        second: 1
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -206,6 +202,14 @@ Material:
         first:
           name: _Rotation
         second: 0
+      data:
+        first:
+          name: _FresnelTerm
+        second: 1
+      data:
+        first:
+          name: _Roughness
+        second: 1
     m_Colors:
       data:
         first:
@@ -218,7 +222,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: .522058845, b: .522058845, a: 1}
+        second: {r: .882352948, g: .521568656, b: .521568656, a: 1}
       data:
         first:
           name: _SpecColor

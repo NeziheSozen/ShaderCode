@@ -18,7 +18,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: ff693607443c0e6438b2543c30ac3789, type: 3}
+          m_Texture: {fileID: 2800000, guid: c485451f08267ad4c880e3bb2aafb19c, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -96,10 +96,6 @@ Material:
         second: 0
       data:
         first:
-          name: _FresnelTerm
-        second: 1
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -138,6 +134,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _FresnelTerm
+        second: 1
+      data:
+        first:
+          name: _Roughness
+        second: 0
     m_Colors:
       data:
         first:
@@ -146,11 +150,11 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .752941251, g: .36470589, b: .247058839, a: 1}
+        second: {r: .882352948, g: .521568656, b: .521568656, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .956862807, g: .474509835, b: .329411775, a: 1}
+        second: {r: .882352948, g: .521568656, b: .521568656, a: 1}
       data:
         first:
           name: _EmissionColorUI

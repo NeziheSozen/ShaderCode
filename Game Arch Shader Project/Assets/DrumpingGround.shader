@@ -10,7 +10,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 		_Shininess("Ohh... Shiny", Float) = 1.0
 		
 		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
-		_Roughness("Roughness",Float)=1
+		_Roughness("Roughness",Range(0,1))=0.5
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
 	}

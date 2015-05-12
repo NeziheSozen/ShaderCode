@@ -9,7 +9,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 		_SpecColor("Spec Color", Color)= (1,1,1,1)
 		_Shininess("Ohh... Shiny", Float) = 1.0
 		
-		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
+		_FresnelTerm("Fresnel Term (Refractive Index)", Range(0,1)) = 0.5
 		_Roughness("Roughness",Range(0,1))=0.5
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
@@ -80,32 +80,51 @@ Shader "Custom/CGTesting (Working in frag)" {
 		}
 		
 		float4 frag( vOuptut input):COLOR
-		{	float alpha = _Roughness * _Roughness;
-			float m = input.tex.xy; 
-			float NdotM = dot(input.norm,m);
-			float alpha_1 = pow(alpha,2)-1;
-			float alpha_2 = pow(alpha,2);
-			float3 GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
+		{	
 			float3 viewDir = normalize(_WorldSpaceCameraPos - 
 				mul(_Object2World, input.pos).xyz);
 			float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
 			
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(input.norm,lightDir));
+			float alpha = _Roughness * _Roughness;
+			float3 m = input.norm; 
+			//Half Vector
+			float HalfV = normalize(lightDir+viewDir);
+					
+			//Lots of dot products to make doing the calcs simpler
+			float NdotL =max( dot(input.norm, lightDir),0.0);
+			float NdotV = max( dot(input.norm, viewDir),0.0);
+			float NdotM = dot(input.norm,m);
+			float VdotH = dot( viewDir,HalfV);
 			
+			//GGX terms to make calc cleaner
+			float alpha_1 = pow(alpha,2)-1;
+			float alpha_2 = pow(alpha,2);
+			float3 GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
+			//Geometric shadowing term
+			float Neumann = NdotL*NdotV/max(NdotL,NdotV);
+			//Fresnel term
+			float f0 = pow((1-_FresnelTerm/1+_FresnelTerm),2);
+			float Fresnel = f0 + ((1-f0)*pow(NdotL,5));
 			
 			float attenuation = 1.0; //only one light to worry about.
 			
 			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
+			
+			float3 BRDF = ((GGX * Fresnel * Neumann)/(4 * NdotL * NdotV) 
+			* _LightColor0.rgb * _SpecColor.rgb);
 			
 			float3 specReflection;
 			if(dot(input.norm,lightDir)<0.0){
 			specReflection = float3(0.0,0.0,0.0);
 			}
 			else{
-			specReflection = attenuation * _LightColor0.rgb * _SpecColor.rgb
+			specReflection = attenuation  * _LightColor0.rgb * _SpecColor.rgb
 			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess);			
+			
 			}
+			
 			float4 finalCol = float4(diffuseReflection 
 			+ ambientLighting+specReflection,0.0);
 			float4 tex =  tex2D(_MainTex, input.tex.xy) *finalCol;

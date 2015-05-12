@@ -85,7 +85,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 10
+        second: 20
       data:
         first:
           name: _SrcBlend
@@ -93,6 +93,10 @@ Material:
       data:
         first:
           name: _DstBlend
+        second: 0
+      data:
+        first:
+          name: _FresnelTerm
         second: 0
       data:
         first:
@@ -134,10 +138,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _FresnelTerm
-        second: 1
       data:
         first:
           name: _Roughness

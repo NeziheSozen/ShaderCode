@@ -2,8 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DrumpingGround.shader">
     <Files>
-      <File FileName="Assets\Testing.shader" Line="87" Column="4" />
-      <File FileName="Assets\DrumpingGround.shader" Line="58" Column="20" />
+      <File FileName="Assets\DrumpingGround.shader" Line="140" Column="1" />
+      <File FileName="Assets\Testing.shader" Line="119" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

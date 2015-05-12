@@ -77,6 +77,20 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Noraml
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -93,10 +107,6 @@ Material:
       data:
         first:
           name: _DstBlend
-        second: 0
-      data:
-        first:
-          name: _FresnelTerm
         second: 0
       data:
         first:
@@ -140,8 +150,12 @@ Material:
         second: 0
       data:
         first:
+          name: _FresnelTerm
+        second: .197999999
+      data:
+        first:
           name: _Roughness
-        second: 0
+        second: .0439999998
     m_Colors:
       data:
         first:

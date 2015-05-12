@@ -6,11 +6,12 @@ Shader "Custom/CGTesting (Working in frag)" {
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
+		//_Normal ("Normal",2D) = "white"{}
 		_SpecColor("Spec Color", Color)= (1,1,1,1)
-		_Shininess("Ohh... Shiny", Float) = 1.0
+		_Shininess("Shiny Term", Range(1,10)) = 1.0
 		
-		_FresnelTerm("Fresnel Term (Refractive Index)", Range(0,1)) = 0.5
-		_Roughness("Roughness",Range(0,1))=0.5
+		_FresnelTerm("Fresnel Term (Refractive Index)", Range(1,20)) = 10
+		_Roughness("Roughness",Range(0.01,1))=0.5
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0
 	}
@@ -28,8 +29,10 @@ Shader "Custom/CGTesting (Working in frag)" {
 		#pragma vertex vert
 		#pragma fragment frag
 		#include "UnityCG.cginc"
+		//#include "UnityPBSLighting.cginc"
 		
 		uniform sampler2D _MainTex;
+		uniform sampler2D _Normal;
 		uniform float4 _LightColor0;
 		uniform float4 _Color;
 		uniform float4 _SpecColor;
@@ -44,6 +47,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float4 vertex : POSITION;
 			float3 normal : NORMAL;
 			float4 texCoord : TEXCOORD0;
+			
 		
 		};
 		
@@ -52,6 +56,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 		float4 col: COLOR;
 		float3 norm: TANGENT;
 		float4 tex: TEXCOORD0;
+		//float4 nTex: TEXCOORD1;
 		
 		
 		};
@@ -88,7 +93,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(input.norm,lightDir));
 			float alpha = _Roughness * _Roughness;
-			float3 m = input.norm; 
+			float m = input.tex.xy; 
 			//Half Vector
 			float HalfV = normalize(lightDir+viewDir);
 					
@@ -99,6 +104,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float VdotH = dot( viewDir,HalfV);
 			
 			//GGX terms to make calc cleaner
+			//Distributions terms
 			float alpha_1 = pow(alpha,2)-1;
 			float alpha_2 = pow(alpha,2);
 			float3 GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
@@ -106,14 +112,14 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float Neumann = NdotL*NdotV/max(NdotL,NdotV);
 			//Fresnel term
 			float f0 = pow((1-_FresnelTerm/1+_FresnelTerm),2);
-			float Fresnel = f0 + ((1-f0)*pow(NdotL,5));
+			float Fresnel = f0 + ((1-f0)*pow(VdotH,5));
 			
 			float attenuation = 1.0; //only one light to worry about.
 			
 			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
 			
-			float3 BRDF = ((GGX * Fresnel * Neumann)/(4 * NdotL * NdotV) 
-			* _LightColor0.rgb * _SpecColor.rgb);
+			float3 BRDF = ((GGX * Fresnel * Neumann)/(4 * NdotL * NdotV)) 
+			* _LightColor0.rgb * _SpecColor.rgb;
 			
 			float3 specReflection;
 			if(dot(input.norm,lightDir)<0.0){
@@ -121,7 +127,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			}
 			else{
 			specReflection = attenuation  * _LightColor0.rgb * _SpecColor.rgb
-			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess);			
+			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess) ;			
 			
 			}
 			

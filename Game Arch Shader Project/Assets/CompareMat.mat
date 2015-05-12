@@ -99,7 +99,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 20
+        second: 1
       data:
         first:
           name: _SrcBlend
@@ -151,11 +151,11 @@ Material:
       data:
         first:
           name: _FresnelTerm
-        second: .197999999
+        second: 5.40999985
       data:
         first:
           name: _Roughness
-        second: .0439999998
+        second: .652999997
     m_Colors:
       data:
         first:

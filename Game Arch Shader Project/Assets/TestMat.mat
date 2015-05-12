@@ -141,7 +141,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 20
+        second: 1.01999998
       data:
         first:
           name: _Exposure
@@ -154,10 +154,6 @@ Material:
         first:
           name: _DstBlend
         second: 10
-      data:
-        first:
-          name: _FresnelTerm
-        second: 1
       data:
         first:
           name: _Parallax
@@ -204,12 +200,16 @@ Material:
         second: 1
       data:
         first:
+          name: _FresnelTerm
+        second: 1
+      data:
+        first:
           name: _Rotation
         second: 0
       data:
         first:
           name: _Roughness
-        second: 1
+        second: .00999999978
     m_Colors:
       data:
         first:

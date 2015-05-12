@@ -6,10 +6,10 @@ Shader "Custom/CGTesting (Working)" {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_SpecColor("Spec Color", Color)= (1,1,1,1)
-		_Shininess("Ohh... Shiny", Float) = 1.0
+		_Shininess("Shiny Term", Range(1,10)) = 1.0
 		
-		_FresnelTerm("Fresnel Term (Refractive Index (0...1))", Float) = 1
-		_Roughness("Roughness",Float)=1
+		_FresnelTerm("Fresnel Term (Refractive Index)", Range(1,20)) = 10
+		_Roughness("Roughness",Range(0.01,1))=0.5
 		
 		//_Glossiness("Gloss",Range(0,1))=0.5
 		//_Metallic ("Metal",Range(0,1))= 0.0

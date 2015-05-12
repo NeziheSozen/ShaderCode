@@ -83,6 +83,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			return output;
 		
 		}
+
 		
 		float4 frag( vOuptut input):COLOR
 		{	
@@ -93,32 +94,40 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(input.norm,lightDir));
 			float alpha = _Roughness * _Roughness;
-			float m = input.tex.xy; 
+			float3 m = _Roughness; 
 			//Half Vector
-			float HalfV = normalize(lightDir+viewDir);
+			float3 HalfV = normalize(lightDir+viewDir);
 					
 			//Lots of dot products to make doing the calcs simpler
 			float NdotL =max( dot(input.norm, lightDir),0.0);
 			float NdotV = max( dot(input.norm, viewDir),0.0);
 			float NdotM = dot(input.norm,m);
 			float VdotH = dot( viewDir,HalfV);
+			float NdotH = dot(input.norm,HalfV);
 			
 			//GGX terms to make calc cleaner
-			//Distributions terms
-			float alpha_1 = pow(alpha,2)-1;
-			float alpha_2 = pow(alpha,2);
-			float3 GGX = alpha_2/PI*pow((pow(NdotM,2)*alpha_1+1),2);
+			//Distribution terms
+			float alpha_1 = pow(alpha,2.0)-1.0;
+			float alpha_2 = pow(alpha,2.0);
+			float GGX = alpha_2/PI*pow((pow(NdotM,2.0)*alpha_1+1.0),2.0);
+			float Cos2 = pow(NdotH,2);
+			float Tan2 = 1.0-Cos2/Cos2;
+			float3 GGX2 = (1.0/PI) * pow(_Roughness/Cos2*(alpha_2+Tan2),2);
+			float BP_m = 2.0/alpha_2 - 2.0;
+			float BP = (BP_m+2.0) * pow(max(NdotH,0.0),BP_m)/(2.0*PI);
 			//Geometric shadowing term
 			float Neumann = NdotL*NdotV/max(NdotL,NdotV);
+			float Implicit = NdotL*NdotV;
+			float CT = min(min(2.0*NdotH * NdotV / VdotH,2.0*NdotH*NdotL/VdotH),1.0);
 			//Fresnel term
-			float f0 = pow((1-_FresnelTerm/1+_FresnelTerm),2);
-			float Fresnel = f0 + ((1-f0)*pow(VdotH,5));
+			float f0 = pow((1.0-_FresnelTerm/1.0+_FresnelTerm),2.0);
+			float Fresnel = f0 + ((1.0-f0)*pow(NdotL,5.0));
 			
 			float attenuation = 1.0; //only one light to worry about.
 			
 			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
 			
-			float3 BRDF = ((GGX * Fresnel * Neumann)/(4 * NdotL * NdotV)) 
+			float3 BRDF = ((BP * Fresnel * CT)/(4 * NdotL * NdotV)) 
 			* _LightColor0.rgb * _SpecColor.rgb;
 			
 			float3 specReflection;
@@ -130,9 +139,9 @@ Shader "Custom/CGTesting (Working in frag)" {
 			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess) ;			
 			
 			}
-			
+			//float4 finalCol = float4(GGX2,1.0);
 			float4 finalCol = float4(diffuseReflection 
-			+ ambientLighting+specReflection,0.0);
+			+ ambientLighting+(specReflection*BRDF),1.0);
 			float4 tex =  tex2D(_MainTex, input.tex.xy) *finalCol;
 			return tex;
 		}
@@ -140,6 +149,6 @@ Shader "Custom/CGTesting (Working in frag)" {
 	 }
 }
 	
-	FallBack "Diffuse"
+	//FallBack "Diffuse"
 }
 

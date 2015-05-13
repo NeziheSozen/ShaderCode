@@ -151,11 +151,11 @@ Material:
       data:
         first:
           name: _FresnelTerm
-        second: 5.40999985
+        second: 5.23000002
       data:
         first:
           name: _Roughness
-        second: .652999997
+        second: .337000012
     m_Colors:
       data:
         first:

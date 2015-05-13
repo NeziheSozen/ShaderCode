@@ -104,6 +104,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float NdotM = dot(input.norm,m);
 			float VdotH = dot( viewDir,HalfV);
 			float NdotH = dot(input.norm,HalfV);
+			float LdotH = dot(lightDir,HalfV);
 			
 			//GGX terms to make calc cleaner
 			//Distribution terms
@@ -127,8 +128,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			
 			float3 ambientLighting = UNITY_LIGHTMODEL_AMBIENT.rgb *_Color.rbg;
 			
-			float3 BRDF = ((BP * Fresnel * CT)/(4 * NdotL * NdotV)) 
-			* _LightColor0.rgb * _SpecColor.rgb;
+			float3 BRDF = (BP * Fresnel * CT)/(4 * NdotL * NdotV);
 			
 			float3 specReflection;
 			if(dot(input.norm,lightDir)<0.0){
@@ -139,9 +139,13 @@ Shader "Custom/CGTesting (Working in frag)" {
 			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess) ;			
 			
 			}
+			float3 color_spec = NdotL *BRDF *_SpecColor.rgb;
+			float3 color_diff = NdotL *(1.0 - Fresnel) * diffuseReflection * _LightColor0;
+			float4 finalCol = float4(color_diff + color_spec,1.0);
 			//float4 finalCol = float4(GGX2,1.0);
-			float4 finalCol = float4(diffuseReflection 
-			+ ambientLighting+(specReflection*BRDF),1.0);
+			//float4 finalCol = float4(diffuseReflection 
+			//+ ambientLighting+(specReflection*BRDF),1.0);
+
 			float4 tex =  tex2D(_MainTex, input.tex.xy) *finalCol;
 			return tex;
 		}

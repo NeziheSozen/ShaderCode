@@ -94,7 +94,7 @@ Shader "Custom/CGTesting (Working in frag)" {
 			float3 diffuseReflection  = _LightColor0.rgb * _Color.rgb
 				 * max(0.0,dot(input.norm,lightDir));
 			float alpha = _Roughness * _Roughness;
-			float3 m = _Roughness; 
+			float3 m = float3(_Roughness,_Roughness,_Roughness); 
 			//Half Vector
 			float3 HalfV = normalize(lightDir+viewDir);
 					
@@ -139,12 +139,12 @@ Shader "Custom/CGTesting (Working in frag)" {
 			*pow(max(0.0,dot(reflect(-lightDir,input.norm),viewDir)),_Shininess) ;			
 			
 			}
-			float3 color_spec = NdotL *BRDF *_SpecColor.rgb;
-			float3 color_diff = NdotL *(1.0 - Fresnel) * diffuseReflection * _LightColor0;
-			float4 finalCol = float4(color_diff + color_spec,1.0);
+			//float3 color_spec = NdotL *BRDF *_SpecColor.rgb;
+			//float3 color_diff = NdotL *(1.0 - Fresnel) * diffuseReflection * _LightColor0;
+			//float4 finalCol = float4(color_diff + color_spec,1.0);
 			//float4 finalCol = float4(GGX2,1.0);
-			//float4 finalCol = float4(diffuseReflection 
-			//+ ambientLighting+(specReflection*BRDF),1.0);
+			float4 finalCol = float4(diffuseReflection 
+			+ ambientLighting+(specReflection),1.0);
 
 			float4 tex =  tex2D(_MainTex, input.tex.xy) *finalCol;
 			return tex;

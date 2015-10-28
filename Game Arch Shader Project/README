@@ -1,0 +1,12 @@
+So I've been fiddling with the numbers all day and I've discovered it's the Distribution  in combonation with the Geometric 
+term that's causing it to appear black.  The first one will rid the model of all color and the second term will cause 
+half the model to black out.
+
+I don't know how I could have fixed that, seeing as all the math I've pulled from all the various sources was all the same
+fourmula.  If you want I can pull a list of sites where I pulled the info from
+
+I'm pretty sure it should look simalar to the simple Spec+Diffuse+Ambient that's on the shader labeled CGTesting(Working) 
+but render just using different math. I've left it commented out for now so you see what it should look like right now
+
+Like I said, I don't know what's wrong with it, and only one person knows my pain, but he figured it himself and didn't 
+feel like sharing with the rest of the world how he did it.

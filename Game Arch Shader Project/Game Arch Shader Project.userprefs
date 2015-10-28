@@ -1,8 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DrumpingGround.shader">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\Movement\DoParkour.cs">
     <Files>
-      <File FileName="Assets\DrumpingGround.shader" Line="155" Column="1" />
+      <File FileName="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\Movement\ParkourController.cs" Line="434" Column="24" />
+      <File FileName="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\Networking\ParkourControllerView.cs" Line="65" Column="1" />
+      <File FileName="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\Movement\DoParkour.cs" Line="43" Column="28" />
+      <File FileName="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\softParent.cs" Line="27" Column="22" />
+      <File FileName="..\..\GameDev2\GameDev2\Parkour\Assets\Scripts\Networking\PlayerSpawn.cs" Line="94" Column="53" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
